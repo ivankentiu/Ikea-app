@@ -13,6 +13,7 @@
 		D5B687681F78E862005DA898 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5B687671F78E862005DA898 /* Assets.xcassets */; };
 		D5B6876B1F78E862005DA898 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5B687691F78E862005DA898 /* LaunchScreen.storyboard */; };
 		D5B687731F78F6B7005DA898 /* itemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B687721F78F6B7005DA898 /* itemCell.swift */; };
+		D5B687751F790575005DA898 /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = D5B687741F790575005DA898 /* Models.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D5B6876A1F78E862005DA898 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D5B6876C1F78E862005DA898 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5B687721F78F6B7005DA898 /* itemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = itemCell.swift; sourceTree = "<group>"; };
+		D5B687741F790575005DA898 /* Models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Models.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				D5B687601F78E862005DA898 /* AppDelegate.swift */,
 				D5B687621F78E862005DA898 /* ViewController.swift */,
+				D5B687741F790575005DA898 /* Models.scnassets */,
 				D5B687641F78E862005DA898 /* Main.storyboard */,
 				D5B687671F78E862005DA898 /* Assets.xcassets */,
 				D5B687691F78E862005DA898 /* LaunchScreen.storyboard */,
@@ -127,6 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5B6876B1F78E862005DA898 /* LaunchScreen.storyboard in Resources */,
+				D5B687751F790575005DA898 /* Models.scnassets in Resources */,
 				D5B687681F78E862005DA898 /* Assets.xcassets in Resources */,
 				D5B687661F78E862005DA898 /* Main.storyboard in Resources */,
 			);
