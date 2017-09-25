@@ -8,6 +8,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="AvenirNext.ttc">
+            <string>AvenirNext-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -59,11 +64,19 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="owU-VD-SDO">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="592"/>
                             </arscnView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Plane Detected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C48-PQ-1yB">
+                                <rect key="frame" x="124.5" y="20" width="126.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MWP-pk-gWJ" firstAttribute="top" secondItem="owU-VD-SDO" secondAttribute="bottom" id="7Xv-K9-DHc"/>
                             <constraint firstItem="MWP-pk-gWJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="B1U-5r-NG8"/>
+                            <constraint firstItem="C48-PQ-1yB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CMD-P9-yLy"/>
+                            <constraint firstItem="C48-PQ-1yB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Il6-Nc-BXQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MWP-pk-gWJ" secondAttribute="trailing" id="M2R-np-gMK"/>
                             <constraint firstItem="owU-VD-SDO" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Vbt-pe-vZN"/>
                             <constraint firstItem="MWP-pk-gWJ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="htr-hC-NlH"/>
@@ -74,6 +87,7 @@
                     </view>
                     <connections>
                         <outlet property="itemsCollectionView" destination="MWP-pk-gWJ" id="Grs-7R-Wo0"/>
+                        <outlet property="planeDetected" destination="C48-PQ-1yB" id="hiu-nx-9fZ"/>
                         <outlet property="sceneView" destination="owU-VD-SDO" id="Mg4-yd-jOU"/>
                     </connections>
                 </viewController>

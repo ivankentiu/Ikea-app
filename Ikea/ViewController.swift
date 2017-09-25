@@ -9,8 +9,9 @@
 import UIKit
 import ARKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, ARSCNViewDelegate {
 
+    @IBOutlet weak var planeDetected: UILabel!
     // string matches filename in terms of spelling
     let itemsArray: [String] = ["cup", "vase", "boxing", "table"]
     @IBOutlet weak var itemsCollectionView: UICollectionView!
@@ -26,9 +27,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.configuration.planeDetection = .horizontal
         self.itemsCollectionView.dataSource = self
         self.itemsCollectionView.delegate = self
-        
+        self.sceneView.delegate = self
         // make sure to register recognizers!
         self.registerGestureRecognizers()
+        self.sceneView.autoenablesDefaultLighting = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,10 +43,50 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return itemsArray.count
     }
     
+    // all gestures here!
     func registerGestureRecognizers() {
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinch))
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(rotate))
+        longPressGestureRecognizer.minimumPressDuration = 0.1
+        self.sceneView.addGestureRecognizer(longPressGestureRecognizer)
+        self.sceneView.addGestureRecognizer(pinchGestureRecognizer)
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func rotate(sender: UILongPressGestureRecognizer) {
+        let sceneView = sender.view as! ARSCNView
+        let holdLocation = sender.location(in: sceneView)
+        let hitTest = sceneView.hitTest(holdLocation)
+        if !hitTest.isEmpty {
+            let result = hitTest.first!
+            // start holding with finger
+            if sender.state == .began {
+                let rotation = SCNAction.rotateBy(x: 0, y: CGFloat(360.degreesToRadians), z: 0, duration: 1)
+                let forever = SCNAction.repeatForever(rotation)
+                result.node.runAction(forever)
+            } else if sender.state == .ended {
+                result.node.removeAllActions()
+            }
+        }
+    }
+    
+    @objc func pinch(sender: UIPinchGestureRecognizer) {
+        let sceneView = sender.view as! ARSCNView
+        let pinchLocation = sender.location(in: sceneView)
+        let hitTest = sceneView.hitTest(pinchLocation)
+        
+        if !hitTest.isEmpty {
+            let results = hitTest.first!
+            // the node that you pinched
+            let node = results.node
+            // scale based on how far you pinched (grow or shrink immediately 0
+            let pinchAction = SCNAction.scale(by: sender.scale, duration: 0)
+            node.runAction(pinchAction)
+            // constant scaling
+            sender.scale = 1.0
+        }
     }
     
     @objc func tapped(sender: UITapGestureRecognizer) {
@@ -69,6 +111,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let transform = hitTestResult.worldTransform
             let thirdColumn = transform.columns.3
             node.position = SCNVector3(thirdColumn.x, thirdColumn.y, thirdColumn.z)
+            if selectedItem == "table" {
+                self.centerPivot(for: node)
+            }
             self.sceneView.scene.rootNode.addChildNode(node)
         }
     }
@@ -91,5 +136,34 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = UIColor.orange
     }
+    
+    // get info node added for plane detection label
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        guard anchor is ARPlaneAnchor else { return }
+
+        DispatchQueue.main.async {
+            // reveal the Plane Detected label
+            self.planeDetected.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                // hide the label after 3 secs
+                self.planeDetected.isHidden = true
+            }
+        }
+        
+    }
+    
+    // center pivot point exactly where your node is!
+    func centerPivot(for node: SCNNode) {
+        let min = node.boundingBox.min
+        let max = node.boundingBox.max
+        node.pivot = SCNMatrix4MakeTranslation(
+            min.x + (max.x - min.x)/2,
+            min.y + (max.y - min.y)/2,
+            min.z + (max.z - min.z)/2
+        )
+    }
 }
 
+extension Int {
+    var degreesToRadians: Double { return Double(self) * .pi/180}
+}
